@@ -1,0 +1,147 @@
+/* Container styling */
+.container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 20px;
+    background-color: #f6f6f6;
+  }
+  
+  /* Card styling */
+  .card {
+    background-color: #fcfcfc;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin: 15px 0;
+    width: 100%;
+    max-width: 600px;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  /* Hover effects */
+  .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Image styling */
+  .card img {
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    object-fit: cover;
+  }
+  
+  /* Card body styling */
+  .card-body {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .card-body h5 {
+    margin: 10px 0;
+    font-size: 1.5em;
+    color: #333;
+  }
+  
+  .card-body p {
+    margin: 5px 0;
+    font-size: 1em;
+    color: #666;
+  }
+  
+  /* Primary button styling */
+  .btn-primary {
+    background-color: #ffcb05;
+    border: none;
+    padding: 10px 25px;
+    font-size: 1em;
+    color: #2a75bb;
+    border-radius: 25px;
+    transition: background-color 0.3s, color 0.3s;
+    margin-top: 10px;
+  }
+  
+  .btn-primary:hover {
+    background-color: #2a75bb;
+    color: #ffcb05;
+  }
+  
+  /* Pagination styling */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    list-style: none;
+  }
+  
+  .page-item {
+    margin: 0 5px;
+  }
+  
+  .page-link {
+    color: #2a75bb;
+    text-decoration: none;
+    padding: 10px 15px;
+    border: 1px solid #2a75bb;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .page-link:hover {
+    background-color: #2a75bb;
+    color: #ffcb05;
+  }
+  
+  .page-item.active .page-link {
+    background-color: #ffcb05;
+    color: #2a75bb;
+  }
+  
+  /* Modal styling */
+  .modal-content {
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  .modal-header {
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .modal-header .modal-title {
+    font-size: 1.5em;
+  }
+  
+  .modal-header .close {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+  }
+  
+  .modal-body {
+    font-size: 1em;
+  }
+  
+  .modal-body h5 {
+    font-size: 1.3em;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .modal-body p {
+    color: #666;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .card {
+      width: 90%;
+    }
+  }
+  
+  /* Add custom CSS rules if needed */
+  
+  

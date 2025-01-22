@@ -1,0 +1,143 @@
+<!-- Initialize page with basic setup -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokémon Cards Interface</title>
+  <link href="web.css" rel="stylesheet">
+  <style>
+    .card {
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Container for Pokémon cards -->
+  <div class="container">
+    <div class="row" id="pokemon-container">
+      <!-- Pokémon cards will be inserted here -->
+    </div>
+  </div>
+
+  <!-- Pagination controls -->
+  <nav>
+    <ul class="pagination" id="pagination-container">
+      <!-- Pagination items will be inserted here -->
+    </ul>
+  </nav>
+
+  <!-- Modal for detailed view -->
+  <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="detailsModalLabel">Pokémon Details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="modal-body">
+          <!-- Pokémon details will be inserted here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Include Bootstrap JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    // Constants and variables
+    const itemsPerPage = 20;
+    let currentPage = 1;
+    let pokemonData = [];
+
+    // Fetch Pokémon data from the API
+    function fetchData() {
+      fetch('https://pokeapi.co/api/v2/pokemon?limit=151')
+        .then(response => response.json())
+        .then(data => {
+          pokemonData = data.results;
+          renderPage(currentPage);
+          createPagination();
+        })
+        .catch(error => console.error('Error fetching data:', error));
+    }
+
+    // Create a card for each Pokémon
+    function createCard(pokemon) {
+      const card = document.createElement('div');
+      card.className = 'col-sm-6 col-md-4 col-lg-3';
+      card.innerHTML = `
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">${pokemon.name}</h5>
+            <button class="btn btn-primary" onclick="viewDetails('${pokemon.url}')">View Details</button>
+          </div>
+        </div>
+      `;
+      return card;
+    }
+
+    // Paginate the Pokémon data
+    function paginate(items, page, perPage) {
+      return items.slice((page - 1) * perPage, page * perPage);
+    }
+
+    // Render the current page of Pokémon cards
+    function renderPage(page) {
+      const pokemonContainer = document.getElementById('pokemon-container');
+      pokemonContainer.innerHTML = '';
+      const paginatedItems = paginate(pokemonData, page, itemsPerPage);
+      paginatedItems.forEach(pokemon => {
+        pokemonContainer.appendChild(createCard(pokemon));
+      });
+    }
+
+    // Create pagination controls
+    function createPagination() {
+      const paginationContainer = document.getElementById('pagination-container');
+      paginationContainer.innerHTML = '';
+      const totalPages = Math.ceil(pokemonData.length / itemsPerPage);
+      
+      for (let i = 1; i <= totalPages; i++) {
+        const pageItem = document.createElement('li');
+        pageItem.className = `page-item ${i === currentPage ? 'active' : ''}`;
+        pageItem.innerHTML = `<a class="page-link" href="#" onclick="goToPage(${i})">${i}</a>`;
+        paginationContainer.appendChild(pageItem);
+      }
+    }
+
+    // Navigate to a specific page
+    function goToPage(page) {
+      currentPage = page;
+      renderPage(page);
+      createPagination();
+    }
+
+    // Display detailed information for a Pokémon
+    function viewDetails(url) {
+      fetch(url)
+        .then(response => response.json())
+        .then(pokemon => {
+          const modalBody = document.getElementById('modal-body');
+          modalBody.innerHTML = `
+            <h5>${pokemon.name}</h5>
+            <p>Height: ${pokemon.height}</p>
+            <p>Weight: ${pokemon.weight}</p>
+            <p>Base Experience: ${pokemon.base_experience}</p>
+          `;
+          $('#detailsModal').modal('show');
+        })
+        .catch(error => console.error('Error fetching details:', error));
+    }
+
+    // Initialize the page by fetching data
+    fetchData();
+  </script>
+
+</body>
+</html>
