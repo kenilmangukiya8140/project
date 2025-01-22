@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Website</title>
+    <style>
+        /* CSS Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header, footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1em 0;
+        }
+        nav a {
+            margin: 0 1em;
+            color: white;
+            text-decoration: none;
+        }
+        main {
+            padding: 2em;
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        ul li {
+            padding: 1em;
+            border-bottom: 1px solid #ddd;
+        }
+        button {
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            padding: 0.5em 1em;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+        form label, form input, form select, form button {
+            margin-bottom: 1em;
+        }
+        input, select {
+            padding: 0.5em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+        }
+        footer {
+            margin-top: 2em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Our Restaurant</h1>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#menu">Menu</a>
+            <a href="#reservation">Reservation</a>
+            <a href="#order">Order</a>
+        </nav>
+    </header>
+    <main>
+        <!-- Home Section -->
+        <section id="home">
+            <h2>Welcome to Our Restaurant</h2>
+            <p>Enjoy your meal and have a great time.</p>
+        </section>
+        <!-- Menu Section -->
+        <section id="menu">
+            <h2>Our Menu</h2>
+            <ul id="menu-list">
+                <li>
+                    <h3>Dish 1</h3>
+                    <p>Description of Dish 1</p>
+                    <button onclick="addToCart('Dish 1')">Add to Cart</button>
+                </li>
+                <li>
+                    <h3>Dish 2</h3>
+                    <p>Description of Dish 2</p>
+                    <button onclick="addToCart('Dish 2')">Add to Cart</button>
+                </li>
+                <!-- Add more dishes as needed -->
+            </ul>
+        </section>
+        <!-- Reservation Section -->
+        <section id="reservation">
+            <h2>Make a Reservation</h2>
+            <form onsubmit="handleReservation(event)">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <label for="phone">Phone:</label>
+                <input type="tel" id="phone" name="phone" required>
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" required>
+                <label for="time">Time:</label>
+                <input type="time" id="time" name="time" required>
+                <label for="tableType">Table Type:</label>
+                <select id="tableType" name="tableType" required>
+                    <option value="indoor">Indoor</option>
+                    <option value="outdoor">Outdoor</option>
+                    <option value="private">Private Dining</option>
+                    <option value="family">Family</option>
+                    <option value="couple">Couple</option>
+                </select>
+                <button type="submit">Book Now</button>
+            </form>
+        </section>
+        <!-- Order Section -->
+        <section id="order">
+            <h2>Your Order</h2>
+            <form onsubmit="handleOrder(event)">
+                <div id="order-summary">
+                    <!-- Order items will be dynamically added here -->
+                </div>
+                <button type="submit">Place Order</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 Our Restaurant. All rights reserved.</p>
+    </footer>
+    <script>
+        // JavaScript functions
+
+        let cart = [];
+
+        function addToCart(dish) {
+            cart.push(dish);
+            alert(`${dish} added to cart!`);
+            updateOrderSummary();
+        }
+
+        function updateOrderSummary() {
+            const summary = document.getElementById('order-summary');
+            summary.innerHTML = '';
+            cart.forEach(dish => {
+                const div = document.createElement('div');
+                div.textContent = dish;
+                summary.appendChild(div);
+            });
+        }
+
+        function handleReservation(event) {
+            event.preventDefault();
+            const form = event.target;
+            const reservation = {
+                name: form.name.value,
+                email: form.email.value,
+                phone: form.phone.value,
+                date: form.date.value,
+                time: form.time.value,
+                tableType: form.tableType.value,
+            };
+            console.log('Reservation:', reservation);
+            alert('Reservation successful!');
+            form.reset();
+        }
+
+        function handleOrder(event) {
+            event.preventDefault();
+            const order = {
+                items: cart,
+                total: cart.length * 10 // Example: Assume each item costs $10
+            };
+            console.log('Order:', order);
+            alert(`Order placed successfully! Your total is $${order.total}.`);
+            cart = [];
+            updateOrderSummary();
+        }
+    </script>
+</body>
+</html>
